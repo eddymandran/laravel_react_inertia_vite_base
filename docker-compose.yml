@@ -52,20 +52,15 @@ services:
             retries: 3
             timeout: 5s
 
-#PgAdmin Service (DataBase Management System )
-    pgadmin:
-        image: dpage/pgadmin4
-        container_name: barathon-pgadmin
-        restart: always
+    #CloudBeaver Service (DataBase Management System )
+    CloudBeaver:
+        image: dbeaver/cloudbeaver:latest
+        container_name: barathon-cloudbeaver
+        restart: unless-stopped
         links:
             - pgsql
-        environment:
-            PGADMIN_DEFAULT_EMAIL: admin@admin.com
-            PGADMIN_DEFAULT_PASSWORD: root
         ports:
-            - "5050:5050"
-        volumes:
-            - data-pgadmin:/var/lib/pgadmin
+            - '${FORWARD_DB_PORT:-8080}:8978'
         networks:
             - barathon
 
